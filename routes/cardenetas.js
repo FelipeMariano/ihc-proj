@@ -47,16 +47,20 @@ router.put('/:id', function(req, res, next){
 
 router.delete('/:id', function(req, res, next){
   Cardeneta.findById(req.params.id, function(err, card){
-    
-   User.find({_id: {$in: card['users']}}, function(err, users){
-      users.forEach(function(user){
-        user.cardenetas = user.cardenetas.filter(function(returned){return returned !== card['_id']});
-        console.log(user);
-        console.log(user.cardenetas);
-      });
+
      
       card.remove(function(err_delete, removed){
-        res.json({message: 'deletado com sucesso!'});
+            
+       User.find({_id: {$in: card['users']}}, function(err, users){
+          users.forEach(function(user){
+            user.cardenetas = user.cardenetas.filter(function(returned){return returned !== card['_id']});
+            console.log(user);
+            console.log(user.cardenetas);
+            user.save(function(err, post){
+              if(err) next(err);
+            });
+          });
+         res.json({message: 'deletado com sucesso!'});
       });
     });
 
