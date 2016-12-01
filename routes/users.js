@@ -104,7 +104,7 @@ router.post('/:id/cardenetas', function(req, res, next){
           var months = monthDiff(new Date(cardeneta.dt_nasc), date);
       
       
-          Aplicacao.find({idade_minima_meses: {$gte: idade}}, function(err, post){
+          Aplicacao.find({idade_minima_meses: {$gte: months}}, function(err, post){
               var aplics = [];
               post.forEach(function(aplic){
                 var newAplic = {};
@@ -129,9 +129,9 @@ router.post('/:id/cardenetas', function(req, res, next){
             });
             });
 
-          get_aplicacoes_default(months, function(err, saved_aplicacao){
-            
-          });
+          //get_aplicacoes_default(months, function(err, saved_aplicacao){
+          //  
+          //});
 
           
       });
